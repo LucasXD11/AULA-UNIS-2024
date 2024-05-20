@@ -1,0 +1,99 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class IMCCalculator extends JFrame implements ActionListener {
+    private JLabel weightLabel, heightLabel, resultLabel;
+    private JTextField weightField, heightField;
+    private JButton calculateButton;
+
+    public IMCCalculator() {
+        setTitle("IMC Calculator");
+        setSize(300, 200);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new GridLayout(3, 2));
+
+        weightLabel = new JLabel("Peso (kg): ");
+        weightField = new JTextField();
+        heightLabel = new JLabel("Altura (m): ");
+        heightField = new JTextField();
+        calculateButton = new JButton("Calcular");
+        calculateButton.addActionListener(this);
+        resultLabel = new JLabel();
+
+        add(weightLabel);
+        add(weightField);
+        add(heightLabel);
+        add(heightField);
+        add(calculateButton);
+        add(resultLabel);
+
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == calculateButton) {
+            double weight = Double.parseDouble(weightField.getText());
+            double height = Double.parseDouble(heightField.getText());
+            double bmi = calculateBMI(weight, height);
+            String classification = classifyBMI(bmi);
+            resultLabel.setText("Seu IMC é: " + String.format("%.2f", bmi) + ". Classificação: " + classification);
+        }
+    }
+
+    private double calculateBMI(double weight, double height) {
+        return weight / (height * height);
+    }
+
+    private String classifyBMI(double bmi) {
+        if (bmi < 18.5) {
+            return "Abaixo do peso";
+        } else if (bmi < 24.9) {
+            return "Peso normal";
+        } else if (bmi < 29.9) {
+            return "Sobrepeso";
+        } else if (bmi < 34.9) {
+            return "Obesidade grau I";
+        } else if (bmi < 39.9) {
+            return "Obesidade grau II";
+        } else {
+            return "Obesidade grau III";
+        }
+    }
+
+    public static void main(String[] args) {
+        new IMCCalculator();
+    }
+}
+
+Import Lines (1-3):
+
+import javax.swing.*;: Importa todos os componentes visuais (como botões, rótulos e caixas de texto) necessários para criar a interface gráfica do aplicativo.
+import java.awt.*;: Importa funcionalidades básicas para a interface gráfica, como layout, cores e fontes.
+import java.awt.event.*;: Importa recursos para lidar com ações do usuário, como cliques em botões.
+Classe IMCCalculator (Linha 4):
+
+Define uma classe pública chamada IMCCalculator que herda da classe JFrame (uma janela básica do Swing) e implementa a interface ActionListener. A parte implements ActionListener indica que essa classe vai tratar ações do usuário, como cliques em botões.
+Variáveis de Membro (Linhas 6-11):
+
+São declaradas variáveis privadas dentro da classe para armazenar os elementos da interface:
+weightLabel, heightLabel, resultLabel: Rótulos para peso, altura e o resultado do IMC calculado, respectivamente.
+weightField, heightField: Caixas de texto para o usuário digitar seu peso e altura.
+calculateButton: Botão que aciona o cálculo do IMC quando clicado.
+Construtor (Linhas 13-32):
+
+Define o construtor da classe IMCCalculator, executado quando uma instância da classe é criada. Ele realiza as seguintes tarefas:
+Define o título, tamanho e comportamento padrão de fechamento da janela.
+Define um layout em grade com 3 linhas e 2 colunas para organizar os elementos da interface.
+Cria objetos JLabel, JTextField e JButton para peso, altura e botão de cálculo, respectivamente.
+Adiciona um ActionListener ao calculateButton para tratar cliques no botão.
+Organiza os elementos criados no layout de grade dentro da janela.
+Torna a janela visível na tela.
+Método actionPerformed (Linhas 34-46):
+
+Implementa a interface ActionListener e é chamado sempre que o usuário interage com um elemento da interface que tenha um ActionListener associado (nesse caso, o calculateButton).
+Verifica se a fonte do evento (ação) é o calculateButton.
+Se for o botão de calcular, tenta converter os valores do peso e altura digitados pelo usuário para números decimais (double).
+Caso a conversão seja bem-sucedida, calcula o IMC usando o método calculateBMI e classifica o IMC usando o método classifyBMI.
+Atualiza o texto do resultLabel para mostrar o IMC calculado e sua classificação.
+Se houver erro na conversão (valores não numéricos digitados), exibe uma mensagem de erro no resultLabel pedindo para o usuário digitar valores numéricos.
